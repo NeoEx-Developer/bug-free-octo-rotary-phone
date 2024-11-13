@@ -1,0 +1,4 @@
+framework module NXFitSDK {
+  header "NXFitSDK-Swift.h"
+  requires objc
+}

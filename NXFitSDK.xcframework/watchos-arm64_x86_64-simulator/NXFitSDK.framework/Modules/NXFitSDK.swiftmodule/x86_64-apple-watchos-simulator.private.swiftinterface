@@ -1,0 +1,689 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 5.10 (swiftlang-5.10.0.13 clang-1500.3.9.4)
+// swift-module-flags: -target x86_64-apple-watchos9.0-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -enable-bare-slash-regex -module-name NXFitSDK
+import Combine
+import CoreData
+import CoreLocation
+import Foundation
+import HealthKit
+import Swift
+import UIKit
+import _Concurrency
+import _StringProcessing
+import _SwiftConcurrencyShims
+import os
+@_hasMissingDesignatedInitializers public class DistanceSessionSample : NXFitSDK.BaseSessionSample {
+  final public let meters: Swift.Double
+  required public init(meters: Swift.Double, timestamp: Foundation.Date, intervalInSeconds: Swift.Int, activeTimeInSeconds: Swift.Int)
+  required public init(from decoder: any Swift.Decoder) throws
+  @objc deinit
+}
+public struct CollectionWithMetadata<T, U> : Swift.Decodable where T : Swift.Decodable, U : NXFitSDK.Metadata {
+  public let results: [T]
+  public let links: NXFitSDK.Pagination?
+  public let metadata: U?
+  public init(results: [T], links: NXFitSDK.Pagination? = nil, metadata: U? = nil)
+  public init(from decoder: any Swift.Decoder) throws
+}
+public typealias Collection<S> = NXFitSDK.CollectionWithMetadata<S, NXFitSDK.NoMetadata> where S : Swift.Decodable
+public protocol UserClient {
+  #if compiler(>=5.3) && $AsyncAwait
+  func deleteImage() async throws
+  #endif
+  #if compiler(>=5.3) && $AsyncAwait
+  func get(eTag: Swift.String?) async throws -> NXFitSDK.CacheableResponse<NXFitSDK.User>
+  #endif
+  #if compiler(>=5.3) && $AsyncAwait
+  func get(ifModifiedSince: Foundation.Date?) async throws -> NXFitSDK.CacheableResponse<NXFitSDK.User>
+  #endif
+  #if compiler(>=5.3) && $AsyncAwait
+  func update(data: NXFitSDK.UpdateUserRequest) async throws
+  #endif
+  #if compiler(>=5.3) && $AsyncAwait
+  func setImage(data: NXFitSDK.SetUserImageRequest) async throws -> NXFitSDK.SetUserImageResponse
+  #endif
+}
+public struct User : Swift.Decodable {
+  public let id: Swift.Int
+  public let referenceId: Swift.String
+  public let emailAddress: Swift.String
+  public let givenName: Swift.String
+  public let familyName: Swift.String
+  public let imageUrl: Swift.String
+  public let locationId: Swift.Int?
+  public let heartRateZoneThresholds: [Swift.Int]
+  public init(id: Swift.Int, referenceId: Swift.String, emailAddress: Swift.String, givenName: Swift.String, familyName: Swift.String, imageUrl: Swift.String, locationId: Swift.Int?, heartRateZoneThresholds: [Swift.Int])
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct Configuration {
+  public let baseUrl: Foundation.URL
+  public let enableAppleBackgroundDelivery: Swift.Bool
+  public init(baseUrl: Foundation.URL, enableAppleBackgroundDelivery: Swift.Bool = true)
+}
+@_hasMissingDesignatedInitializers public class SpeedSessionSample : NXFitSDK.BaseSessionSample {
+  final public let metersPerSecond: Swift.Double
+  required public init(metersPerSecond: Swift.Double, timestamp: Foundation.Date, intervalInSeconds: Swift.Int, activeTimeInSeconds: Swift.Int)
+  required public init(from decoder: any Swift.Decoder) throws
+  @objc deinit
+}
+public struct DateTimeZone : Swift.Codable {
+  public let dateUtc: Foundation.Date
+  public let timeZone: Foundation.TimeZone
+  public init(dateUtc: Foundation.Date, timeZone: Foundation.TimeZone)
+  public init(from decoder: any Swift.Decoder) throws
+  public func encode(to encoder: any Swift.Encoder) throws
+}
+public protocol AuthProviding {
+  var isAuthenticated: Combine.AnyPublisher<NXFitSDK.AuthState, Swift.Never> { get }
+}
+@_hasMissingDesignatedInitializers public class HeartRateSessionSample : NXFitSDK.BaseSessionSample {
+  final public let bpm: Swift.Int
+  required public init(bpm: Swift.Int, timestamp: Foundation.Date, intervalInSeconds: Swift.Int, activeTimeInSeconds: Swift.Int)
+  required public init(from decoder: any Swift.Decoder) throws
+  @objc deinit
+}
+public struct UpdateUserRequest : Swift.Encodable {
+  public let referenceId: Swift.String
+  public let emailAddress: Swift.String
+  public let givenName: Swift.String
+  public let familyName: Swift.String
+  public let imageUrl: Swift.String
+  public let locationId: Swift.Int?
+  public init(referenceId: Swift.String, emailAddress: Swift.String, givenName: Swift.String, familyName: Swift.String, imageUrl: Swift.String, locationId: Swift.Int?)
+  public func encode(to encoder: any Swift.Encoder) throws
+}
+public enum ApiActivityType : Swift.String, Swift.Codable {
+  case other, aerobics, americanFootball, archery, australianFootball, badminton, baseball, basketball, beachVolleyball, biathlon, boxing, calisthenics, cardioTraining, circuitTraining, climbing, coreTraining, cricket, crossCountrySkiing, crossFit, crossTraining, curling, cycling, dancing, diving, elliptical, englishFootball, fencing, frisbee, golf, gymnastics, handball, handCycling, hiit, hiking, hockey, horsebackRiding, iceSkating, indoorVolleyball, intervalTraining, jumpingRope, kayaking, kickboxing, lacrosse, meditation, mixedMartialArts, mountainBiking, pilates, polo, preparationAndRecovery, racquetball, rockClimbing, rowing, rugby, running, sailing, scubaDiving, skateboarding, skating, skiing, skyDiving, snowboarding, snowshoeing, softball, spinbike, squash, stairClimbing, stairClimbingMachine, stationaryBiking, strengthTraining, stretching, surfing, swimming, tableTennis, tennis, treadmill, triathlon, volleyball, walking, waterPolo, weightlifting, wheelchairRun, wheelchairWalk, windsurfing, yoga
+  public init?(rawValue: Swift.String)
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public protocol UserSessionClient {
+  #if compiler(>=5.3) && $AsyncAwait
+  func getById(userId: Swift.Int, sessionId: Swift.Int, eTag: Swift.String?) async throws -> NXFitSDK.CacheableResponse<NXFitSDK.UserSession>
+  #endif
+  #if compiler(>=5.3) && $AsyncAwait
+  func getById(userId: Swift.Int, sessionId: Swift.Int, ifModifiedSince: Foundation.Date?) async throws -> NXFitSDK.CacheableResponse<NXFitSDK.UserSession>
+  #endif
+  #if compiler(>=5.3) && $AsyncAwait
+  func getMetrics(userId: Swift.Int, from: Foundation.Date, to: Foundation.Date, for groupBy: NXFitSDK.ApiGroupBy, eTag: Swift.String?) async throws -> NXFitSDK.CacheableResponse<NXFitSDK.SessionMetrics>
+  #endif
+  #if compiler(>=5.3) && $AsyncAwait
+  func list(userId: Swift.Int, from: Foundation.Date?, to: Foundation.Date?, eTag: Swift.String?, pagination: NXFitSDK.PaginationRequest?) async throws -> NXFitSDK.CacheableResponse<NXFitSDK.Collection<NXFitSDK.UserSession>>
+  #endif
+  #if compiler(>=5.3) && $AsyncAwait
+  func listHeartRateZonesById(userId: Swift.Int, sessionId: Swift.Int, eTag: Swift.String?) async throws -> NXFitSDK.CacheableResponse<NXFitSDK.Collection<NXFitSDK.HeartRateZone>>
+  #endif
+  #if compiler(>=5.3) && $AsyncAwait
+  func listHeartRateZonesById(userId: Swift.Int, sessionId: Swift.Int, ifModifiedSince: Foundation.Date?) async throws -> NXFitSDK.CacheableResponse<NXFitSDK.Collection<NXFitSDK.HeartRateZone>>
+  #endif
+  #if compiler(>=5.3) && $AsyncAwait
+  func listHeartRateZones(userId: Swift.Int, from: Foundation.Date, to: Foundation.Date, eTag: Swift.String?) async throws -> NXFitSDK.CacheableResponse<NXFitSDK.Collection<NXFitSDK.HeartRateZone>>
+  #endif
+}
+public struct SyncDetails : Swift.Decodable {
+  public let id: Swift.String?
+  public let version: Swift.String?
+  public init?(id: Swift.String?, version: Swift.String?)
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct CacheableResponse<T> {
+  public var value: T
+  public var eTag: Swift.String?
+  public var lastModified: Foundation.Date?
+  public init(value: T, eTag: Swift.String? = nil)
+  public init(value: T, lastModified: Foundation.Date? = nil)
+}
+public enum ApiError : Swift.Error {
+  case client(statusCode: Swift.Int, body: Swift.String?), server(statusCode: Swift.Int, body: Swift.String?), other(statusCode: Swift.Int, body: Swift.String?), notFound, notModified, badRequest(body: Swift.String), conflict, responseBodyMissing, failedToParseBody(message: Swift.String, body: Swift.String), unknown
+}
+public protocol HKClient {
+  func isWriteAuthorized() -> Swift.Bool
+  #if compiler(>=5.3) && $AsyncAwait
+  func requestAuthorization() async throws
+  #endif
+  var store: HealthKit.HKHealthStore { get }
+}
+public protocol Metadata : Swift.Decodable {
+}
+public struct NoMetadata : NXFitSDK.Metadata {
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct UserSession : Swift.Identifiable, Swift.Decodable {
+  public let id: Swift.Int
+  public let activityId: Swift.String?
+  public let activityType: NXFitSDK.ApiActivityType
+  public let user: NXFitSDK.UserDetails
+  public let activeDurationInSeconds: Swift.Int
+  public let startedOnLocal: NXFitSDK.DateTimeZone
+  public let endedOnLocal: NXFitSDK.DateTimeZone
+  public let distanceInMeters: Swift.Double?
+  public let energyBurnedInCalories: Swift.Int?
+  public let maximalOxygenConsumption: Swift.Double?
+  public let source: NXFitSDK.SourceDetails
+  public let sync: NXFitSDK.SyncDetails?
+  public let heartRate: NXFitSDK.HeartRateMetrics?
+  public let cadence: NXFitSDK.CadenceMetrics?
+  public let power: NXFitSDK.PowerMetrics?
+  public let speed: NXFitSDK.SpeedMetrics?
+  public let metadata: NXFitSDK.ExtendedSessionMetadata
+  public init(id: Swift.Int, activityId: Swift.String?, activityType: NXFitSDK.ApiActivityType, user: NXFitSDK.UserDetails, activeDurationInSeconds: Swift.Int, startedOnLocal: NXFitSDK.DateTimeZone, endedOnLocal: NXFitSDK.DateTimeZone, distanceInMeters: Swift.Double?, energyBurnedInCalories: Swift.Int?, maximalOxygenConsumption: Swift.Double?, source: NXFitSDK.SourceDetails, sync: NXFitSDK.SyncDetails?, heartRate: NXFitSDK.HeartRateMetrics?, cadence: NXFitSDK.CadenceMetrics?, power: NXFitSDK.PowerMetrics?, speed: NXFitSDK.SpeedMetrics?, metadata: NXFitSDK.ExtendedSessionMetadata)
+  public init(from decoder: any Swift.Decoder) throws
+  public typealias ID = Swift.Int
+}
+public struct SourceDetails : Swift.Decodable {
+  public let integration: Swift.String
+  public let device: Swift.String?
+  public let app: Swift.String?
+  public init(integration: Swift.String, device: Swift.String?, app: Swift.String?)
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct CadenceMetrics : Swift.Decodable {
+  public let avgCadencePerMinute: Swift.Double
+  public let maxCadencePerMinute: Swift.Int
+  public let minCadencePerMinute: Swift.Int
+  public let cadenceUnitShort: Swift.String
+  public let cadenceUnitFull: Swift.String
+  public init(avgCadencePerMinute: Swift.Double, maxCadencePerMinute: Swift.Int, minCadencePerMinute: Swift.Int, cadenceUnitShort: Swift.String, cadenceUnitFull: Swift.String)
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct SetUserImageRequest {
+  public let imageData: Foundation.Data
+  public let imageMimeType: Swift.String
+  public init(imageData: Foundation.Data, imageMimeType: Swift.String)
+}
+public struct UserProfile : Swift.Decodable {
+  public let id: Swift.Int
+  public let givenName: Swift.String
+  public let familyName: Swift.String
+  public let imageUrl: Swift.String
+  public init(id: Swift.Int, givenName: Swift.String, familyName: Swift.String, imageUrl: Swift.String)
+  public init(from decoder: any Swift.Decoder) throws
+}
+public enum ApiFilterBy : Swift.Int, Swift.Encodable, Swift.CaseIterable {
+  case studio, all, fitstop
+  public init?(rawValue: Swift.Int)
+  public typealias AllCases = [NXFitSDK.ApiFilterBy]
+  public typealias RawValue = Swift.Int
+  public static var allCases: [NXFitSDK.ApiFilterBy] {
+    get
+  }
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+public struct HeartRateZone : Swift.Decodable {
+  public let zone: Swift.Int
+  public let minBPM: Swift.Int
+  public let maxBPM: Swift.Int
+  public let durationInSeconds: Swift.Int
+  public init(zone: Swift.Int, minBPM: Swift.Int, maxBPM: Swift.Int, durationInSeconds: Swift.Int)
+  public init(from decoder: any Swift.Decoder) throws
+}
+public protocol SessionClient {
+  #if compiler(>=5.3) && $AsyncAwait
+  func list(from: Foundation.Date?, to: Foundation.Date?, with filterBy: NXFitSDK.ApiSessionFilterBy, eTag: Swift.String?, pagination: NXFitSDK.PaginationRequest?) async throws -> NXFitSDK.CacheableResponse<NXFitSDK.Collection<NXFitSDK.Session>>
+  #endif
+}
+public struct SessionMetadata : Swift.Decodable {
+  public let createdOn: Foundation.Date
+  public let updatedOn: Foundation.Date
+  public init(createdOn: Foundation.Date, updatedOn: Foundation.Date)
+  public init(from decoder: any Swift.Decoder) throws
+}
+@_hasMissingDesignatedInitializers public class PowerSessionSample : NXFitSDK.BaseSessionSample {
+  final public let watts: Swift.Int
+  required public init(watts: Swift.Int, timestamp: Foundation.Date, intervalInSeconds: Swift.Int, activeTimeInSeconds: Swift.Int)
+  required public init(from decoder: any Swift.Decoder) throws
+  @objc deinit
+}
+public struct SpeedMetrics : Swift.Decodable {
+  public let avgSpeedInMetersPerSecond: Swift.Double
+  public let maxSpeedInMetersPerSecond: Swift.Double
+  public let minSpeedInMetersPerSecond: Swift.Double
+  public init(avgSpeedInMetersPerSecond: Swift.Double, maxSpeedInMetersPerSecond: Swift.Double, minSpeedInMetersPerSecond: Swift.Double)
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct Source {
+  public let id: Swift.Int
+  public let integrationIdentifier: Swift.String
+  public let deviceName: Swift.String?
+  public let deviceHardwareVersion: Swift.String?
+  public let deviceManufacturer: Swift.String?
+  public let deviceOS: Swift.String?
+  public let appName: Swift.String?
+  public let appIdentifier: Swift.String?
+  public var priority: Swift.Int
+  public var include: Swift.Bool
+  public init(id: Swift.Int, integrationIdentifier: Swift.String, deviceName: Swift.String?, deviceHardwareVersion: Swift.String?, deviceManufacturer: Swift.String?, deviceOS: Swift.String?, appName: Swift.String?, appIdentifier: Swift.String?, priority: Swift.Int, include: Swift.Bool)
+}
+public struct Session : Swift.Identifiable, Swift.Decodable {
+  public let id: Swift.Int
+  public let activityType: NXFitSDK.ApiActivityType
+  public let user: NXFitSDK.UserDetails
+  public let activeDurationInSeconds: Swift.Int
+  public let startedOnLocal: NXFitSDK.DateTimeZone
+  public let endedOnLocal: NXFitSDK.DateTimeZone
+  public let distanceInMeters: Swift.Double?
+  public let energyBurnedInCalories: Swift.Int?
+  public let maximalOxygenConsumption: Swift.Double?
+  public let heartRate: NXFitSDK.HeartRateMetrics?
+  public let cadence: NXFitSDK.CadenceMetrics?
+  public let power: NXFitSDK.PowerMetrics?
+  public let speed: NXFitSDK.SpeedMetrics?
+  public let metadata: NXFitSDK.SessionMetadata
+  public init(id: Swift.Int, activityType: NXFitSDK.ApiActivityType, user: NXFitSDK.UserDetails, activeDurationInSeconds: Swift.Int, startedOnLocal: NXFitSDK.DateTimeZone, endedOnLocal: NXFitSDK.DateTimeZone, distanceInMeters: Swift.Double?, energyBurnedInCalories: Swift.Int?, maximalOxygenConsumption: Swift.Double?, heartRate: NXFitSDK.HeartRateMetrics?, cadence: NXFitSDK.CadenceMetrics?, power: NXFitSDK.PowerMetrics?, speed: NXFitSDK.SpeedMetrics?, metadata: NXFitSDK.SessionMetadata)
+  public init(from decoder: any Swift.Decoder) throws
+  public typealias ID = Swift.Int
+}
+public enum ApiSessionFilterBy : Swift.Int, Swift.Encodable, Swift.CaseIterable {
+  case studio, all
+  public init?(rawValue: Swift.Int)
+  public typealias AllCases = [NXFitSDK.ApiSessionFilterBy]
+  public typealias RawValue = Swift.Int
+  public static var allCases: [NXFitSDK.ApiSessionFilterBy] {
+    get
+  }
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+public struct AuthUser {
+  public let accessToken: Swift.String
+  public let userId: Swift.Int
+  public init(_ accessToken: Swift.String, _ userId: Swift.Int)
+}
+public protocol UserProfileClient {
+  #if compiler(>=5.3) && $AsyncAwait
+  func get(userId: Swift.Int, eTag: Swift.String?) async throws -> NXFitSDK.CacheableResponse<NXFitSDK.UserProfile>
+  #endif
+  #if compiler(>=5.3) && $AsyncAwait
+  func get(userId: Swift.Int, ifModifiedSince: Foundation.Date?) async throws -> NXFitSDK.CacheableResponse<NXFitSDK.UserProfile>
+  #endif
+}
+public struct UserDetails : Swift.Decodable {
+  public let id: Swift.Int
+  public let name: Swift.String
+  public let imageUrl: Swift.String
+  public init(id: Swift.Int, name: Swift.String, imageUrl: Swift.String)
+  public init(from decoder: any Swift.Decoder) throws
+}
+@_hasMissingDesignatedInitializers @available(watchOS 8.3, *)
+final public class NXFitWatch {
+  public static func configure(_ configProvider: any NXFitSDK.ConfigurationProviding, authProvider: any NXFitSDK.AuthProviding) throws -> NXFitSDK.NXFitWatch
+  public static var shared: NXFitSDK.NXFitWatch {
+    get
+  }
+  #if compiler(>=5.3) && $AsyncAwait
+  final public func initialize() async
+  #endif
+  final public var healthKit: any NXFitSDK.HKClient {
+    get
+  }
+  final public var location: any NXFitSDK.LocationProviding {
+    get
+  }
+  final public var user: any NXFitSDK.UserClient {
+    get
+  }
+  final public var userBadges: any NXFitSDK.UserBadgeClient {
+    get
+  }
+  final public var userProfiles: any NXFitSDK.UserProfileClient {
+    get
+  }
+  final public var userSessions: any NXFitSDK.UserSessionClient {
+    get
+  }
+  final public var userSessionSamples: any NXFitSDK.UserSessionSampleClient {
+    get
+  }
+  final public var sessions: any NXFitSDK.SessionClient {
+    get
+  }
+  final public var sources: any NXFitSDK.SourceManager {
+    get
+  }
+  @objc deinit
+}
+extension Foundation.Date {
+  public var startOfDay: Foundation.Date {
+    get
+  }
+  public var endOfDay: Foundation.Date {
+    get
+  }
+  public func formatForApi() -> Swift.String
+  public func getWeekRange() -> (Foundation.Date, Foundation.Date)
+}
+public struct SetUserImageResponse : Swift.Decodable {
+  public let imageUrl: Swift.String
+  public init(imageUrl: Swift.String)
+  public init(from decoder: any Swift.Decoder) throws
+}
+@frozen public enum ConnectionType {
+  case wifi, cellular, unknown
+  public static func == (a: NXFitSDK.ConnectionType, b: NXFitSDK.ConnectionType) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+@_hasMissingDesignatedInitializers public class StepCountSessionSample : NXFitSDK.BaseSessionSample {
+  final public let count: Swift.Int
+  required public init(count: Swift.Int, timestamp: Foundation.Date, intervalInSeconds: Swift.Int, activeTimeInSeconds: Swift.Int)
+  required public init(from decoder: any Swift.Decoder) throws
+  @objc deinit
+}
+public protocol LocationProviding {
+  var authorized: Swift.Bool { get }
+  var mostRecentLocation: CoreLocation.CLLocation? { get }
+  func requestAuthorization()
+  func start()
+  func start(with builder: HealthKit.HKWorkoutRouteBuilder)
+  func stop()
+}
+@_hasMissingDesignatedInitializers public class HeartRateVariabilitySessionSample : NXFitSDK.BaseSessionSample {
+  final public let variabilityMs: Swift.Int
+  required public init(variabilityMs: Swift.Int, timestamp: Foundation.Date, intervalInSeconds: Swift.Int, activeTimeInSeconds: Swift.Int)
+  required public init(from decoder: any Swift.Decoder) throws
+  @objc deinit
+}
+extension NXFitSDK.NXFitNotifications {
+  public enum Source {
+    public static let UpdateRequired: Foundation.Notification.Name
+    public static let UpdateComplete: Foundation.Notification.Name
+  }
+}
+@_hasMissingDesignatedInitializers public class ExerciseTimeSessionSample : NXFitSDK.BaseSessionSample {
+  final public let minutes: Swift.Int
+  required public init(minutes: Swift.Int, timestamp: Foundation.Date, intervalInSeconds: Swift.Int, activeTimeInSeconds: Swift.Int)
+  required public init(from decoder: any Swift.Decoder) throws
+  @objc deinit
+}
+public protocol UserSessionSampleClient {
+  #if compiler(>=5.3) && $AsyncAwait
+  func getActiveEnergyBurned(userId: Swift.Int, sessionId: Swift.Int, eTag: Swift.String?) async throws -> NXFitSDK.CacheableResponse<NXFitSDK.Collection<NXFitSDK.EnergySessionSample>>
+  #endif
+  #if compiler(>=5.3) && $AsyncAwait
+  func getActiveEnergyBurned(userId: Swift.Int, sessionId: Swift.Int, ifModifiedSince: Foundation.Date?) async throws -> NXFitSDK.CacheableResponse<NXFitSDK.Collection<NXFitSDK.EnergySessionSample>>
+  #endif
+  #if compiler(>=5.3) && $AsyncAwait
+  func getBasalEnergyBurned(userId: Swift.Int, sessionId: Swift.Int, eTag: Swift.String?) async throws -> NXFitSDK.CacheableResponse<NXFitSDK.Collection<NXFitSDK.EnergySessionSample>>
+  #endif
+  #if compiler(>=5.3) && $AsyncAwait
+  func getBasalEnergyBurned(userId: Swift.Int, sessionId: Swift.Int, ifModifiedSince: Foundation.Date?) async throws -> NXFitSDK.CacheableResponse<NXFitSDK.Collection<NXFitSDK.EnergySessionSample>>
+  #endif
+  #if compiler(>=5.3) && $AsyncAwait
+  func getCadence(userId: Swift.Int, sessionId: Swift.Int, eTag: Swift.String?) async throws -> NXFitSDK.CacheableResponse<NXFitSDK.Collection<NXFitSDK.CadenceSessionSample>>
+  #endif
+  #if compiler(>=5.3) && $AsyncAwait
+  func getCadence(userId: Swift.Int, sessionId: Swift.Int, ifModifiedSince: Foundation.Date?) async throws -> NXFitSDK.CacheableResponse<NXFitSDK.Collection<NXFitSDK.CadenceSessionSample>>
+  #endif
+  #if compiler(>=5.3) && $AsyncAwait
+  func getDistance(userId: Swift.Int, sessionId: Swift.Int, eTag: Swift.String?) async throws -> NXFitSDK.CacheableResponse<NXFitSDK.Collection<NXFitSDK.DistanceSessionSample>>
+  #endif
+  #if compiler(>=5.3) && $AsyncAwait
+  func getDistance(userId: Swift.Int, sessionId: Swift.Int, ifModifiedSince: Foundation.Date?) async throws -> NXFitSDK.CacheableResponse<NXFitSDK.Collection<NXFitSDK.DistanceSessionSample>>
+  #endif
+  #if compiler(>=5.3) && $AsyncAwait
+  func getExerciseTime(userId: Swift.Int, sessionId: Swift.Int, eTag: Swift.String?) async throws -> NXFitSDK.CacheableResponse<NXFitSDK.Collection<NXFitSDK.ExerciseTimeSessionSample>>
+  #endif
+  #if compiler(>=5.3) && $AsyncAwait
+  func getExerciseTime(userId: Swift.Int, sessionId: Swift.Int, ifModifiedSince: Foundation.Date?) async throws -> NXFitSDK.CacheableResponse<NXFitSDK.Collection<NXFitSDK.ExerciseTimeSessionSample>>
+  #endif
+  #if compiler(>=5.3) && $AsyncAwait
+  func getHeartRate(userId: Swift.Int, sessionId: Swift.Int, eTag: Swift.String?) async throws -> NXFitSDK.CacheableResponse<NXFitSDK.Collection<NXFitSDK.HeartRateSessionSample>>
+  #endif
+  #if compiler(>=5.3) && $AsyncAwait
+  func getHeartRate(userId: Swift.Int, sessionId: Swift.Int, ifModifiedSince: Foundation.Date?) async throws -> NXFitSDK.CacheableResponse<NXFitSDK.Collection<NXFitSDK.HeartRateSessionSample>>
+  #endif
+  #if compiler(>=5.3) && $AsyncAwait
+  func getHeartRateSummaryByInterval(userId: Swift.Int, sessionId: Swift.Int, with intervalInSeconds: Swift.Int, eTag: Swift.String?) async throws -> NXFitSDK.CacheableResponse<NXFitSDK.Collection<NXFitSDK.HeartRateSummarySample>>
+  #endif
+  #if compiler(>=5.3) && $AsyncAwait
+  func getHeartRateSummaryByInterval(userId: Swift.Int, sessionId: Swift.Int, with intervalInSeconds: Swift.Int, ifModifiedSince: Foundation.Date?) async throws -> NXFitSDK.CacheableResponse<NXFitSDK.Collection<NXFitSDK.HeartRateSummarySample>>
+  #endif
+  #if compiler(>=5.3) && $AsyncAwait
+  func getHeartRateVariabilitySDNN(userId: Swift.Int, sessionId: Swift.Int, eTag: Swift.String?) async throws -> NXFitSDK.CacheableResponse<NXFitSDK.Collection<NXFitSDK.HeartRateVariabilitySessionSample>>
+  #endif
+  #if compiler(>=5.3) && $AsyncAwait
+  func getHeartRateVariabilitySDNN(userId: Swift.Int, sessionId: Swift.Int, ifModifiedSince: Foundation.Date?) async throws -> NXFitSDK.CacheableResponse<NXFitSDK.Collection<NXFitSDK.HeartRateVariabilitySessionSample>>
+  #endif
+  #if compiler(>=5.3) && $AsyncAwait
+  func getLocation(userId: Swift.Int, sessionId: Swift.Int, eTag: Swift.String?) async throws -> NXFitSDK.CacheableResponse<NXFitSDK.Collection<NXFitSDK.LocationSessionSample>>
+  #endif
+  #if compiler(>=5.3) && $AsyncAwait
+  func getLocation(userId: Swift.Int, sessionId: Swift.Int, ifModifiedSince: Foundation.Date?) async throws -> NXFitSDK.CacheableResponse<NXFitSDK.Collection<NXFitSDK.LocationSessionSample>>
+  #endif
+  #if compiler(>=5.3) && $AsyncAwait
+  func getOxygenSaturation(userId: Swift.Int, sessionId: Swift.Int, eTag: Swift.String?) async throws -> NXFitSDK.CacheableResponse<NXFitSDK.Collection<NXFitSDK.OxygenSaturationSessionSample>>
+  #endif
+  #if compiler(>=5.3) && $AsyncAwait
+  func getOxygenSaturation(userId: Swift.Int, sessionId: Swift.Int, ifModifiedSince: Foundation.Date?) async throws -> NXFitSDK.CacheableResponse<NXFitSDK.Collection<NXFitSDK.OxygenSaturationSessionSample>>
+  #endif
+  #if compiler(>=5.3) && $AsyncAwait
+  func getPower(userId: Swift.Int, sessionId: Swift.Int, eTag: Swift.String?) async throws -> NXFitSDK.CacheableResponse<NXFitSDK.Collection<NXFitSDK.PowerSessionSample>>
+  #endif
+  #if compiler(>=5.3) && $AsyncAwait
+  func getPower(userId: Swift.Int, sessionId: Swift.Int, ifModifiedSince: Foundation.Date?) async throws -> NXFitSDK.CacheableResponse<NXFitSDK.Collection<NXFitSDK.PowerSessionSample>>
+  #endif
+  #if compiler(>=5.3) && $AsyncAwait
+  func getSpeed(userId: Swift.Int, sessionId: Swift.Int, eTag: Swift.String?) async throws -> NXFitSDK.CacheableResponse<NXFitSDK.Collection<NXFitSDK.SpeedSessionSample>>
+  #endif
+  #if compiler(>=5.3) && $AsyncAwait
+  func getSpeed(userId: Swift.Int, sessionId: Swift.Int, ifModifiedSince: Foundation.Date?) async throws -> NXFitSDK.CacheableResponse<NXFitSDK.Collection<NXFitSDK.SpeedSessionSample>>
+  #endif
+  #if compiler(>=5.3) && $AsyncAwait
+  func getSteps(userId: Swift.Int, sessionId: Swift.Int, eTag: Swift.String?) async throws -> NXFitSDK.CacheableResponse<NXFitSDK.Collection<NXFitSDK.StepCountSessionSample>>
+  #endif
+  #if compiler(>=5.3) && $AsyncAwait
+  func getSteps(userId: Swift.Int, sessionId: Swift.Int, ifModifiedSince: Foundation.Date?) async throws -> NXFitSDK.CacheableResponse<NXFitSDK.Collection<NXFitSDK.StepCountSessionSample>>
+  #endif
+}
+@_hasMissingDesignatedInitializers public class EnergySessionSample : NXFitSDK.BaseSessionSample {
+  final public let calories: Swift.Double
+  required public init(calories: Swift.Double, timestamp: Foundation.Date, intervalInSeconds: Swift.Int, activeTimeInSeconds: Swift.Int)
+  required public init(from decoder: any Swift.Decoder) throws
+  @objc deinit
+}
+public enum NXFitNotifications {
+}
+public class HeartRateSummarySample : Swift.Decodable {
+  final public let avgBPM: Swift.Double
+  final public let minBPM: Swift.Int
+  final public let maxBPM: Swift.Int
+  final public let intervalInSeconds: Swift.Int
+  final public let activeTimeInSeconds: Swift.Int
+  public init(avgBPM: Swift.Double, maxBPM: Swift.Int, minBPM: Swift.Int, intervalInSeconds: Swift.Int, activeTimeInSeconds: Swift.Int)
+  @objc deinit
+  required public init(from decoder: any Swift.Decoder) throws
+}
+public struct Pagination : Swift.Decodable {
+  public let nextUrl: Foundation.URL?
+  public let previousUrl: Foundation.URL?
+  public init(nextUrl: Foundation.URL?, previousUrl: Foundation.URL?)
+  public init(from decoder: any Swift.Decoder) throws
+  public func getNext() -> NXFitSDK.PaginationRequest?
+  public func getPrevious() -> NXFitSDK.PaginationRequest?
+}
+public struct ExtendedSessionMetadata : Swift.Decodable {
+  public let createdOn: Foundation.Date
+  public let updatedOn: Foundation.Date
+  public let completedOn: Foundation.Date?
+  public let processedOn: Foundation.Date?
+  public init(createdOn: Foundation.Date, updatedOn: Foundation.Date, completedOn: Foundation.Date?, processedOn: Foundation.Date?)
+  public init(from decoder: any Swift.Decoder) throws
+}
+public enum SDKError : Swift.Error {
+  case alreadyConfigured
+  public static func == (a: NXFitSDK.SDKError, b: NXFitSDK.SDKError) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+@_hasMissingDesignatedInitializers public class LocationSessionSample : NXFitSDK.BaseSessionSample {
+  final public let altitudeInMeters: Swift.Int?
+  final public let latitude: Swift.Double?
+  final public let longitude: Swift.Double?
+  final public let speedInMetersPerSecond: Swift.Double?
+  final public let headingInDegrees: Swift.Double?
+  public init(altitudeInMeters: Swift.Int?, latitude: Swift.Double?, longitude: Swift.Double?, speedInMetersPerSecond: Swift.Double?, headingInDegrees: Swift.Double?, timestamp: Foundation.Date, intervalInSeconds: Swift.Int, activeTimeInSeconds: Swift.Int)
+  required public init(from decoder: any Swift.Decoder) throws
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers public class HKConstants {
+  public static let heartRateUnit: HealthKit.HKUnit
+  public static let vo2MaxUnit: HealthKit.HKUnit
+  public static let latitudeKey: Swift.String
+  public static let longitudeKey: Swift.String
+  @objc deinit
+}
+public struct SessionMetrics : Swift.Decodable {
+  public let avgBPM: Swift.Double
+  public let maxBPM: Swift.Int
+  public let minBPM: Swift.Int
+  public let energyBurnedInCalories: Swift.Int
+  public let activeTimeInSeconds: Swift.Int
+  public let activityCount: Swift.Int
+  public let activeTimeGoalInSeconds: Swift.Int
+  public init(avgBPM: Swift.Double, maxBPM: Swift.Int, minBPM: Swift.Int, energyBurnedInCalories: Swift.Int, activeTimeInSeconds: Swift.Int, activityCount: Swift.Int, activeTimeGoalInSeconds: Swift.Int)
+  public init(from decoder: any Swift.Decoder) throws
+}
+@_hasMissingDesignatedInitializers public class OxygenSaturationSessionSample : NXFitSDK.BaseSessionSample {
+  final public let percentage: Swift.Double
+  required public init(percentage: Swift.Double, timestamp: Foundation.Date, intervalInSeconds: Swift.Int, activeTimeInSeconds: Swift.Int)
+  required public init(from decoder: any Swift.Decoder) throws
+  @objc deinit
+}
+@frozen public enum AuthState {
+  case authenticated(NXFitSDK.AuthUser)
+  case unauthenticated
+}
+extension NXFitSDK.SetUserImageRequest {
+  public static func createFromUIImage(image: UIKit.UIImage) -> NXFitSDK.SetUserImageRequest?
+}
+extension NXFitSDK.ApiActivityType {
+  public static func map(_ activityType: HealthKit.HKWorkoutActivityType) -> NXFitSDK.ApiActivityType
+}
+public struct PaginationRequest {
+  public let afterToken: Swift.String?
+  public let beforeToken: Swift.String?
+  public let limit: Swift.UInt
+  public init(limit: Swift.UInt)
+  public init(afterToken: Swift.String, limit: Swift.UInt)
+  public init(beforeToken: Swift.String, limit: Swift.UInt)
+}
+public struct HeartRateMetrics : Swift.Decodable {
+  public let avgBPM: Swift.Double
+  public let maxBPM: Swift.Int
+  public let minBPM: Swift.Int
+  public init(avgBPM: Swift.Double, maxBPM: Swift.Int, minBPM: Swift.Int)
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct PowerMetrics : Swift.Decodable {
+  public let avgPowerInWatts: Swift.Double
+  public let maxPowerInWatts: Swift.Int
+  public let minPowerInWatts: Swift.Int
+  public init(avgPowerInWatts: Swift.Double, maxPowerInWatts: Swift.Int, minPowerInWatts: Swift.Int)
+  public init(from decoder: any Swift.Decoder) throws
+}
+public protocol SourceManager {
+  #if compiler(>=5.3) && $AsyncAwait
+  func get() async -> [NXFitSDK.Source]
+  #endif
+  func get() -> Combine.AnyPublisher<[NXFitSDK.Source], Swift.Never>
+  #if compiler(>=5.3) && $AsyncAwait
+  func get(id: Swift.Int) async -> NXFitSDK.Source?
+  #endif
+  func get(id: Swift.Int) -> NXFitSDK.Source?
+  func isUpdateRequired() -> Swift.Bool
+  #if compiler(>=5.3) && $AsyncAwait
+  func refresh() async
+  #endif
+  #if compiler(>=5.3) && $AsyncAwait
+  func update(_ source: NXFitSDK.Source) async throws
+  #endif
+  #if compiler(>=5.3) && $AsyncAwait
+  func update(_ sources: [NXFitSDK.Source]) async throws
+  #endif
+}
+@_hasMissingDesignatedInitializers public class CadenceSessionSample : NXFitSDK.BaseSessionSample {
+  final public let valuePerMinute: Swift.Int
+  required public init(valuePerMinute: Swift.Int, timestamp: Foundation.Date, intervalInSeconds: Swift.Int, activeTimeInSeconds: Swift.Int)
+  required public init(from decoder: any Swift.Decoder) throws
+  @objc deinit
+}
+public struct UserBadge : Swift.Decodable, Swift.Hashable, Swift.Identifiable {
+  public let id: Swift.Int
+  public let title: Swift.String
+  public let description: Swift.String
+  public let imageUrl: Swift.String
+  public let startedOn: Foundation.Date?
+  public let endedOn: Foundation.Date?
+  public let completedOn: Foundation.Date?
+  public let progress: Swift.Double
+  public init(id: Swift.Int, title: Swift.String, description: Swift.String, imageUrl: Swift.String, startedOn: Foundation.Date?, endedOn: Foundation.Date?, completedOn: Foundation.Date?, progress: Swift.Double)
+  public func hash(into hasher: inout Swift.Hasher)
+  public static func == (a: NXFitSDK.UserBadge, b: NXFitSDK.UserBadge) -> Swift.Bool
+  public typealias ID = Swift.Int
+  public var hashValue: Swift.Int {
+    get
+  }
+  public init(from decoder: any Swift.Decoder) throws
+}
+@_hasMissingDesignatedInitializers public class BaseSessionSample : Swift.Decodable {
+  final public let timestamp: Foundation.Date
+  final public let intervalInSeconds: Swift.Int
+  final public let activeTimeInSeconds: Swift.Int
+  @objc deinit
+  required public init(from decoder: any Swift.Decoder) throws
+}
+public protocol UserBadgeClient {
+  #if compiler(>=5.3) && $AsyncAwait
+  func get(date: Foundation.Date, eTag: Swift.String?) async throws -> NXFitSDK.CacheableResponse<NXFitSDK.Collection<NXFitSDK.UserBadge>>
+  #endif
+}
+public protocol ConfigurationProviding {
+  var configuration: NXFitSDK.Configuration { get }
+}
+extension NXFitSDK.DateTimeZone {
+  public func format(dateFormat: Swift.String) -> Swift.String
+  public func formatForApi() -> Swift.String
+}
+public protocol ConnectivityStatusProviding {
+  var isConnected: Swift.Bool { get }
+  var connectionType: NXFitSDK.ConnectionType { get }
+}
+public enum ApiGroupBy : Swift.Int, Swift.Encodable, Swift.CaseIterable {
+  case daily, weekly, monthly
+  public init?(rawValue: Swift.Int)
+  public typealias AllCases = [NXFitSDK.ApiGroupBy]
+  public typealias RawValue = Swift.Int
+  public static var allCases: [NXFitSDK.ApiGroupBy] {
+    get
+  }
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+extension NXFitSDK.ApiActivityType : Swift.Equatable {}
+extension NXFitSDK.ApiActivityType : Swift.Hashable {}
+extension NXFitSDK.ApiActivityType : Swift.RawRepresentable {}
+extension NXFitSDK.ApiFilterBy : Swift.Equatable {}
+extension NXFitSDK.ApiFilterBy : Swift.Hashable {}
+extension NXFitSDK.ApiFilterBy : Swift.RawRepresentable {}
+extension NXFitSDK.ApiSessionFilterBy : Swift.Equatable {}
+extension NXFitSDK.ApiSessionFilterBy : Swift.Hashable {}
+extension NXFitSDK.ApiSessionFilterBy : Swift.RawRepresentable {}
+extension NXFitSDK.ConnectionType : Swift.Equatable {}
+extension NXFitSDK.ConnectionType : Swift.Hashable {}
+extension NXFitSDK.ConnectionType : Swift.Sendable {}
+extension NXFitSDK.SDKError : Swift.Equatable {}
+extension NXFitSDK.SDKError : Swift.Hashable {}
+extension NXFitSDK.ApiGroupBy : Swift.Equatable {}
+extension NXFitSDK.ApiGroupBy : Swift.Hashable {}
+extension NXFitSDK.ApiGroupBy : Swift.RawRepresentable {}
