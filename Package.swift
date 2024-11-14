@@ -10,8 +10,12 @@ let package = Package(
         .library(
             name: "NXFitSDK",
             targets: ["NXFitSDK"]),
+        .library(
+            name: "NXFitRepositoriesSDK",
+            targets: ["NXFitRepositoriesSDK"]),
     ],
     targets: [
-        .binaryTarget(name: "NXFitSDK", path: "NXFitSDK.xcframework")
+        .binaryTarget(name: "NXFitSDK", path: "NXFitSDK.xcframework"),
+        .binaryTarget(name: "NXFitRepositoriesSDK", path: "NXFitRepositoriesSDK.xcframework")
     ]
 )

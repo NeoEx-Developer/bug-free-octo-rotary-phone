@@ -1,0 +1,90 @@
+{
+  "ABIRoot": {
+    "kind": "Root",
+    "name": "TopLevel",
+    "printedName": "TopLevel",
+    "children": [
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "NXFitRepositoriesSDK",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "NXFitSDK",
+        "printedName": "NXFitSDK",
+        "declKind": "Import",
+        "moduleName": "NXFitRepositoriesSDK"
+      },
+      {
+        "kind": "TypeDecl",
+        "name": "SessionRepository",
+        "printedName": "SessionRepository",
+        "children": [
+          {
+            "kind": "Constructor",
+            "name": "init",
+            "printedName": "init(_:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "SessionRepository",
+                "printedName": "NXFitRepositoriesSDK.SessionRepository",
+                "usr": "s:20NXFitRepositoriesSDK17SessionRepositoryC"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "ConfigurationProviding",
+                "printedName": "any NXFitSDK.ConfigurationProviding",
+                "usr": "s:8NXFitSDK22ConfigurationProvidingP"
+              }
+            ],
+            "declKind": "Constructor",
+            "usr": "s:20NXFitRepositoriesSDK17SessionRepositoryCyAC0aC022ConfigurationProviding_pcfc",
+            "mangledName": "$s20NXFitRepositoriesSDK17SessionRepositoryCyAC0aC022ConfigurationProviding_pcfc",
+            "moduleName": "NXFitRepositoriesSDK",
+            "declAttributes": [
+              "AccessControl"
+            ],
+            "init_kind": "Designated"
+          },
+          {
+            "kind": "Function",
+            "name": "getUrl",
+            "printedName": "getUrl()",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "URL",
+                "printedName": "Foundation.URL",
+                "usr": "s:10Foundation3URLV"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:20NXFitRepositoriesSDK17SessionRepositoryC6getUrl10Foundation3URLVyF",
+            "mangledName": "$s20NXFitRepositoriesSDK17SessionRepositoryC6getUrl10Foundation3URLVyF",
+            "moduleName": "NXFitRepositoriesSDK",
+            "declAttributes": [
+              "AccessControl"
+            ],
+            "funcSelfKind": "NonMutating"
+          }
+        ],
+        "declKind": "Class",
+        "usr": "s:20NXFitRepositoriesSDK17SessionRepositoryC",
+        "mangledName": "$s20NXFitRepositoriesSDK17SessionRepositoryC",
+        "moduleName": "NXFitRepositoriesSDK",
+        "declAttributes": [
+          "AccessControl"
+        ]
+      }
+    ],
+    "json_format_version": 8
+  },
+  "ConstValues": []
+}
